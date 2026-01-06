@@ -1,6 +1,6 @@
 package com.kyaw.springdatajpa.controller;
 
-import com.kyaw.springdatajpa.Student;
+import com.kyaw.springdatajpa.entity.Student;
 import com.kyaw.springdatajpa.repository.StudentRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 public class StudentController {
 
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public StudentController(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
