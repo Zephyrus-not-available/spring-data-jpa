@@ -1,9 +1,14 @@
 package com.kyaw.springdatajpa.controller;
 
+import com.kyaw.springdatajpa.dto.StudentDto;
+import com.kyaw.springdatajpa.entity.School;
 import com.kyaw.springdatajpa.entity.Student;
 import com.kyaw.springdatajpa.repository.StudentRepository;
+import com.kyaw.springdatajpa.repository.SchoolRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -11,14 +16,32 @@ import java.util.List;
 public class StudentController {
 
     private final StudentRepository studentRepository;
+    private final SchoolRepository schoolRepository;
 
-    public StudentController(StudentRepository studentRepository) {
+    public StudentController(StudentRepository studentRepository, SchoolRepository schoolRepository) {
         this.studentRepository = studentRepository;
+        this.schoolRepository = schoolRepository;
     }
 
     @PostMapping("/students")
-    public Student post(@RequestBody Student student) {
+    public Student post(@RequestBody StudentDto studentDto) {
+        var student = toStudent(studentDto);
         return studentRepository.save(student);
+    }
+
+    public Student toStudent(StudentDto studentDto) {
+        var student = new Student();
+        student.setFirstName(studentDto.firstName());
+        student.setLastName(studentDto.lastName());
+        student.setEmail(studentDto.email());
+        student.setAge(studentDto.age());
+
+        var school = schoolRepository.findById(studentDto.schoolId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "School not found"));
+
+        student.setSchool(school);
+
+        return student;
     }
 
     @GetMapping("/students")
