@@ -1,5 +1,7 @@
 package com.kyaw.springdatajpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -12,10 +14,9 @@ public class School {
     private String name;
 
     @OneToMany(
-            mappedBy = "school",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            mappedBy = "school"
     )
+    @JsonManagedReference
     private List<Student> students;
 
     public School() {

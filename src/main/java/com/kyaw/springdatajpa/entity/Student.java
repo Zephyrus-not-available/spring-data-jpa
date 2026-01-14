@@ -1,5 +1,7 @@
 package com.kyaw.springdatajpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,6 +27,7 @@ public class Student {
     // --- RELATIONSHIP 2: Many Students belong to One School ---
     @ManyToOne
     @JoinColumn(name = "school_id")
+    @JsonBackReference
     private School school;
 
     public Student() {
