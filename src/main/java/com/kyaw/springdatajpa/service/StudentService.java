@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class StudentService {
 
@@ -26,8 +28,12 @@ public class StudentService {
         return studentMapper.toStudentResponseDto(savedStudent);
     }
 
-    public List<Student> getStudents() {
-        return studentRepository.findAll();
+    public List<StudentResponseDto> getStudents() {
+
+        return studentRepository.findAll()
+                .stream()
+                .map(studentMapper::toStudentResponseDto)
+                .toList();
     }
 
     public StudentResponseDto getStudentById(Integer student_id) {
@@ -35,8 +41,11 @@ public class StudentService {
         return studentMapper.toStudentResponseDto(student);
     }
 
-    public List<Student> getStudentByName(String name){
-        return studentRepository.findAllByFirstNameContaining(name);
+    public List<StudentResponseDto> getStudentByName(String name){
+        return studentRepository.findAllByFirstNameContaining(name)
+                .stream()
+                .map(studentMapper::toStudentResponseDto)
+                .collect(toList());
     }
 
     public void deleteStudentById(Integer student_id){

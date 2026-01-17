@@ -1,6 +1,7 @@
 package com.kyaw.springdatajpa.service;
 
 import com.kyaw.springdatajpa.dto.SchoolDto;
+import com.kyaw.springdatajpa.dto.SchoolResponseDto;
 import com.kyaw.springdatajpa.repository.SchoolRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -24,11 +25,11 @@ public class SchoolService {
         return schoolDto;
     }
 
-    public List<SchoolDto> findAll() {
+    public List<SchoolResponseDto> findAll() {
 
         return schoolRepository.findAll()
                 .stream()
-                .map(schoolMapper::toSchoolDto)
+                .map(schoolMapper::toSchoolResponseDto)
                 .collect(Collectors.toList());
     }
 }

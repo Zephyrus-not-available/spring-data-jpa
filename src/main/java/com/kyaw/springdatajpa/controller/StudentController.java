@@ -24,7 +24,7 @@ public class StudentController {
 
 
     @GetMapping("/students")
-    public List<Student> getStudents() {
+    public List<StudentResponseDto> getStudents() {
         return studentService.getStudents();
     }
 
@@ -34,7 +34,7 @@ public class StudentController {
     }
 
     @GetMapping("students/search/{student_name}")
-    public List<Student> getStudentByName(@PathVariable("student_name") String name){
+    public List<StudentResponseDto> getStudentByName(@PathVariable("student_name") String name){
         return studentService.getStudentByName(name);
     }
 

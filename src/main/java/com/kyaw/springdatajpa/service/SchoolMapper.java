@@ -1,6 +1,7 @@
 package com.kyaw.springdatajpa.service;
 
 import com.kyaw.springdatajpa.dto.SchoolDto;
+import com.kyaw.springdatajpa.dto.SchoolResponseDto;
 import com.kyaw.springdatajpa.entity.School;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +17,12 @@ public class SchoolMapper {
     public School toSchool(SchoolDto schoolDto) {
         return new School(schoolDto.name());
     }
+
+    public SchoolResponseDto toSchoolResponseDto(School school) {
+        return new SchoolResponseDto(
+                school.getName()
+        );
+    }
+
 
 }
