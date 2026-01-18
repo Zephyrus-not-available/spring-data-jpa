@@ -2,10 +2,14 @@ package com.kyaw.springdatajpa.controller;
 
 import com.kyaw.springdatajpa.dto.StudentDto;
 import com.kyaw.springdatajpa.dto.StudentResponseDto;
-import com.kyaw.springdatajpa.entity.Student;
 import com.kyaw.springdatajpa.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -18,7 +22,7 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public StudentResponseDto saveStudent(@RequestBody StudentDto studentDto) {
+    public StudentResponseDto saveStudent(@Valid @RequestBody StudentDto studentDto) {
        return studentService.saveStudent(studentDto);
     }
 
@@ -42,5 +46,17 @@ public class StudentController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteStudentById(@PathVariable Integer student_id){
     studentService.deleteStudentById(student_id);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException exp) {
+        var errors = new HashMap<String, String>();
+        exp.getBindingResult().getFieldErrors()
+                .forEach(error -> {
+                    var fieldName = error.getField();
+                    var errorMessage = error.getDefaultMessage();
+                    errors.put(fieldName, errorMessage);
+        });
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

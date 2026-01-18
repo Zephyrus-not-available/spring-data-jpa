@@ -33,8 +33,7 @@ public class StudentMapper {
     public StudentResponseDto toStudentResponseDto(Student student) {
         return new StudentResponseDto(
                 student.getFirstName(),
-                student.getLastName(),
-                student.getEmail()
+                student.getLastName()
         );
     }
 
